@@ -1,0 +1,9 @@
+{
+  "/api/capacity": {
+    "target": "http://localhost:3337",
+    "secure": false,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  }
+}

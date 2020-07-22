@@ -15,7 +15,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@org-capacity/org-capacity-common": [
+        "libs/org-capacity-common/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

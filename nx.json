@@ -21,5 +21,19 @@
       }
     }
   },
-  "projects": {}
+  "projects": {
+    "org-capacity-app": {
+      "tags": []
+    },
+    "org-capacity-app-e2e": {
+      "tags": [],
+      "implicitDependencies": ["org-capacity-app"]
+    },
+    "org-capacity-service": {
+      "tags": []
+    },
+    "org-capacity-common": {
+      "tags": []
+    }
+  }
 }

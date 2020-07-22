@@ -1,8 +1,230 @@
 {
   "version": 1,
-  "projects": {},
+  "projects": {
+    "org-capacity-app": {
+      "root": "apps/org-capacity-app",
+      "sourceRoot": "apps/org-capacity-app/src",
+      "projectType": "application",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/web:build",
+          "options": {
+            "outputPath": "dist/apps/org-capacity-app",
+            "index": "apps/org-capacity-app/src/index.html",
+            "main": "apps/org-capacity-app/src/main.tsx",
+            "polyfills": "apps/org-capacity-app/src/polyfills.ts",
+            "tsConfig": "apps/org-capacity-app/tsconfig.app.json",
+            "assets": [
+              "apps/org-capacity-app/src/favicon.ico",
+              "apps/org-capacity-app/src/assets"
+            ],
+            "styles": ["apps/org-capacity-app/src/styles.css"],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/org-capacity-app/src/environments/environment.ts",
+                  "with": "apps/org-capacity-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "org-capacity-app:build",
+            "proxyConfig": "proxy.conf.json"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "org-capacity-app:build:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "apps/org-capacity-app/tsconfig.app.json",
+              "apps/org-capacity-app/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/org-capacity-app/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/org-capacity-app/jest.config.js",
+            "tsConfig": "apps/org-capacity-app/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        },
+        "production": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "nx lint org-capacity-app"
+              },
+              {
+                "command": "nx test org-capacity-app"
+              },
+              {
+                "command": "nx build org-capacity-app --configuration=production"
+              }
+            ],
+            "parallel": false
+          }
+        }
+      }
+    },
+    "org-capacity-app-e2e": {
+      "root": "apps/org-capacity-app-e2e",
+      "sourceRoot": "apps/org-capacity-app-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/org-capacity-app-e2e/cypress.json",
+            "tsConfig": "apps/org-capacity-app-e2e/tsconfig.e2e.json",
+            "devServerTarget": "org-capacity-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "org-capacity-app:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": ["apps/org-capacity-app-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/org-capacity-app-e2e/**/*"]
+          }
+        }
+      }
+    },
+    "org-capacity-service": {
+      "root": "apps/org-capacity-service",
+      "sourceRoot": "apps/org-capacity-service/src",
+      "projectType": "application",
+      "prefix": "org-capacity-service",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/org-capacity-service",
+            "main": "apps/org-capacity-service/src/main.ts",
+            "tsConfig": "apps/org-capacity-service/tsconfig.app.json",
+            "assets": ["apps/org-capacity-service/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "org-capacity-service:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "apps/org-capacity-service/tsconfig.app.json",
+              "apps/org-capacity-service/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/org-capacity-service/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/org-capacity-service/jest.config.js",
+            "tsConfig": "apps/org-capacity-service/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        },
+        "production": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "nx lint org-capacity-service"
+              },
+              {
+                "command": "nx test org-capacity-service"
+              },
+              {
+                "command": "nx build org-capacity-service --configuration=production"
+              }
+            ],
+            "parallel": false
+          }
+        }
+      }
+    },
+    "org-capacity-common": {
+      "root": "libs/org-capacity-common",
+      "sourceRoot": "libs/org-capacity-common/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/org-capacity-common/tsconfig.lib.json",
+              "libs/org-capacity-common/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/org-capacity-common/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/org-capacity-common/jest.config.js",
+            "tsConfig": "libs/org-capacity-common/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
+    "defaultCollection": "@nrwl/react"
   },
   "schematics": {
     "@nrwl/workspace": {
@@ -17,13 +239,19 @@
     },
     "@nrwl/react": {
       "application": {
-        "linter": "eslint"
+        "style": "none",
+        "linter": "eslint",
+        "babel": true
       },
       "library": {
+        "style": "none",
         "linter": "eslint"
       },
       "storybook-configuration": {
         "linter": "eslint"
+      },
+      "component": {
+        "style": "none"
       }
     },
     "@nrwl/next": {
@@ -62,5 +290,6 @@
         "linter": "eslint"
       }
     }
-  }
+  },
+  "defaultProject": "org-capacity-app"
 }
