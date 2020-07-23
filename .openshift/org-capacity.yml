@@ -31,7 +31,7 @@ items:
     resources: {}
     source:
       git:
-        uri: git@github.com:abgov/org-capacity-prototype.git
+        uri: https://github.com/abgov/org-capacity-prototype.git
         ref: master
       contextDir: .
       type: Git
@@ -41,7 +41,7 @@ items:
           - name: OUTPUT_DIR
             value: dist/apps/org-capacity-app
           - name: NPM_BUILD
-            value: npm run nx build org-capacity-app
+            value: npm run nx build org-capacity-app -- --configuration=production
         from:
           kind: DockerImage
           name: nodeshift/ubi8-s2i-web-app:latest
@@ -91,6 +91,10 @@ items:
           name: org-capacity-app-builder:latest
 - apiVersion: v1
   kind: ConfigMap
+  metadata:
+    labels:
+      app: org-capacity-app
+    name:  org-capacity-app-config
   data:
     environment: |-
       {
@@ -134,7 +138,7 @@ items:
             items:
               - key: environment
                 path: environment.json
-            name: org-capacity-config
+            name: org-capacity-app-config
           name: config-volume
     triggers:
       - type: ConfigChange
@@ -196,7 +200,7 @@ items:
     resources: {}
     source:
       git:
-        uri: git@github.com:abgov/org-capacity-prototype.git
+        uri: https://github.com/abgov/org-capacity-prototype.git
         ref: master
       contextDir: .
       type: Git

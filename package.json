@@ -24,7 +24,7 @@
     "test": "nx test",
     "update": "nx migrate latest",
     "workspace-schematic": "nx workspace-schematic",
-    "build": "nx build org-capacity-service",
+    "build": "nx build org-capacity-service --configuration=production",
     "service": "node dist/apps/org-capacity-service/main.js"
   },
   "dependencies": {
