@@ -12,7 +12,6 @@
     "affected:libs": "nx affected:libs",
     "affected:lint": "nx affected:lint",
     "affected:test": "nx affected:test",
-    "build": "nx build",
     "dep-graph": "nx dep-graph",
     "e2e": "nx e2e",
     "format": "nx format:write",
@@ -24,7 +23,9 @@
     "start": "nx serve",
     "test": "nx test",
     "update": "nx migrate latest",
-    "workspace-schematic": "nx workspace-schematic"
+    "workspace-schematic": "nx workspace-schematic",
+    "build": "nx build org-capacity-service",
+    "service": "node dist/apps/org-capacity-service/main.js"
   },
   "dependencies": {
     "@date-io/core": "^2.8.0",

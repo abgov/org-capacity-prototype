@@ -18,7 +18,10 @@ export const personReducer = (
         ...state
       }
 
-      if (action.organization.roles) {
+      if (
+        action.organization &&
+        action.organization.roles
+      ) {
         action.organization.roles.forEach(
           r => {
             if (r.assigned) {

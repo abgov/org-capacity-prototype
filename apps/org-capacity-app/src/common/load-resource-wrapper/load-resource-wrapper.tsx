@@ -10,7 +10,7 @@ export interface LoadResourceWrapperProps {
 
 const useStyles = makeStyles(theme => ({
   loadOverlay: {
-    position: 'fixed',
+    position: 'absolute',
     background: '#11111199',
     top: 0,
     bottom: 0,

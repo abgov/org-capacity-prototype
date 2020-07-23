@@ -10,6 +10,7 @@ export const ORGANIZATIONS_LOADED = 'ORGANIZATION/ORGS_LOADED';
 
 export const ORGANIZATION_LOADING = 'ORGANIZATION/ORG_LOADING';
 export const ORGANIZATION_LOADED = 'ORGANIZATION/ORG_LOADED';
+export const ORGANIZATION_LOAD_FAILED = 'ORGANIZATION/ORG_LOAD_FAILED';
 
 export const ORGANIZATION_VIEW = 'ORGANIZATION/ORG_VIEW';
 
@@ -43,6 +44,11 @@ export interface OrganizationLoadedAction extends BusyAction {
   type: typeof ORGANIZATION_LOADED
   organizationId: string
   organization: Organization
+}
+
+export interface OrganizationLoadFailedAction extends BusyAction {
+  type: typeof ORGANIZATION_LOAD_FAILED
+  organizationId: string
 }
 
 export interface OrganizationViewAction {
@@ -127,6 +133,15 @@ export const loadedOrganization = (
   isBusy: false,
   organizationId,
   organization
+})
+
+export const loadOrganizationFailed = (
+  organizationId: string
+): OrganizationLoadFailedAction => ({
+  type: ORGANIZATION_LOAD_FAILED,
+  operation: `load-org-${organizationId}`,
+  isBusy: false,
+  organizationId
 })
 
 export const viewOrganization = (organizationId: string): OrganizationViewAction => ({
