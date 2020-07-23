@@ -90,6 +90,17 @@ items:
           kind: ImageStreamTag
           name: org-capacity-app-builder:latest
 - apiVersion: v1
+  kind: ConfigMap
+  data:
+    environment: |-
+      {
+          "production": true,
+          "API_URL": "/api",
+          "GRAPH_API_URL": "/api/capacity/v1/graphql",
+          "AUTH_URL": "",
+          "AUTH_CLIENT_ID": "org-capacity-app"
+      }
+- apiVersion: v1
   kind: DeploymentConfig
   metadata:
     labels:
@@ -114,6 +125,17 @@ items:
           - containerPort: 8080
             name: http
             protocol: TCP
+          volumeMounts:
+            - mountPath: /opt/app-root/src/config
+              name: config-volume
+              readOnly: true
+        volumes:
+        - configMap:
+            items:
+              - key: environment
+                path: environment.json
+            name: org-capacity-config
+          name: config-volume
     triggers:
       - type: ConfigChange
       - type: ImageChange
@@ -206,6 +228,8 @@ items:
       spec:
         containers:
         - env:
+            - name: NPM_RUN
+              value: 'service'
             - name: KEYCLOAK_ROOT_URL
               value: ''
             - name: KEYCLOAK_REALM

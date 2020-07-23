@@ -120,3 +120,8 @@ Note that user access is not fully implemented in the prototype. Two Keycloak re
 *org-admin* role applies across the organization; it's not possible to scope the role assignment to a sub-hierarchy of the organization.
 
 The app also looks for an `organizationId` property in the jwt access token and will show the associated organization unit in the *My Area* view of the frontend app. 
+
+## Deployment
+Example for deployment is included under /.openshift
+
+Note that Keycloak and MongoDB are not included.
