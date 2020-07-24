@@ -1,6 +1,6 @@
+import { UserRole } from '@org-capacity/org-capacity-common';
 import { 
-  RequestContext, 
-  UserRole, 
+  RequestContext,
   InvalidOperationError, 
   UnauthorizedError 
 } from '../../common';

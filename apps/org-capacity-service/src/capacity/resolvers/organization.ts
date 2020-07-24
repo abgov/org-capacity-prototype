@@ -1,6 +1,6 @@
+import { User } from '@org-capacity/org-capacity-common';
 import { 
-  RequestContext, 
-  User, 
+  RequestContext,
   InvalidOperationError,
   UnauthorizedError 
 } from '../../common';

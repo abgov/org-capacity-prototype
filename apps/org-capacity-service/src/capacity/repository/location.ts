@@ -1,4 +1,4 @@
-import { User } from '../../common';
+import { User } from '@org-capacity/org-capacity-common';
 import { LocationEntity } from '../model';
 
 export interface LocationRepository {

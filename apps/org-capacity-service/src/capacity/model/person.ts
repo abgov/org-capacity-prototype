@@ -1,4 +1,5 @@
-import { AssertRole, New, User, UserRole } from '../../common';
+import { UserRole, User } from '@org-capacity/org-capacity-common';
+import { AssertRole, New } from '../../common';
 import { logger } from '../../logger';
 import { PersonRepository } from '../repository';
 import { Person, AvailabilityStatus, AvailabilityStatusType } from '../types';

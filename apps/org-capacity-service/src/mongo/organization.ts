@@ -1,7 +1,7 @@
 import { Model, Document, model, Types } from 'mongoose';
 import * as NodeCache from 'node-cache';
-import { Results } from '@org-capacity/org-capacity-common';
-import { decodeAfter, encodeNext, Doc, User } from '../common';
+import { Results, User } from '@org-capacity/org-capacity-common';
+import { decodeAfter, encodeNext, Doc } from '../common';
 import { 
   OrganizationRepository, 
   Organization, 
@@ -12,6 +12,7 @@ import {
 } from '../capacity';
 import { organizationSchema, organizationHierarchySchema } from './schema';
 import { logger } from '../logger';
+import { OrganizationHierarchy } from './types';
 
 type OrganizationDoc = 
   Pick<Organization, Exclude<keyof Organization, 'id' | 'capacity' | 'roles'>> & {
@@ -152,7 +153,7 @@ export class MongoOrganizationRepository implements OrganizationRepository {
       Promise.resolve(cachedCapacity) : 
       new Promise<OrganizationCapacity>((resolve, reject) => {
         this.hierarchyModel.aggregate(pipeline)
-        .exec((err, docs: any[]) => {
+        .exec((err, docs) => {
           if (err) { 
             reject(err);
           } else {
@@ -191,7 +192,7 @@ export class MongoOrganizationRepository implements OrganizationRepository {
 
   clearCache(id: string) {
     return new Promise<void>((resolve, reject) => 
-      this.hierarchyModel.find({belowId: id}, (err, res: any[]) => {
+      this.hierarchyModel.find({belowId: id}, (err, res: OrganizationHierarchy[]) => {
         
         if (err) {
           reject(err);
@@ -209,8 +210,11 @@ export class MongoOrganizationRepository implements OrganizationRepository {
 
   save(entity: OrganizationEntity) {
     return new Promise<OrganizationEntity>((resolve, reject) => {
-      this.model.findOneAndUpdate({ _id: entity.id || new Types.ObjectId() }, this.toDoc(entity), 
+      this.model.findOneAndUpdate(
+        { _id: entity.id || new Types.ObjectId() }, 
+        this.toDoc(entity), 
         { upsert: true, new: true, lean: true, rawResult: true },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (err, res: any) => {
           
           if (err) {
@@ -231,22 +235,25 @@ export class MongoOrganizationRepository implements OrganizationRepository {
 
   private attachToHierarch(parentId: string, newId: string) {
 
-    return new Promise((resolve, reject) => {
-      this.hierarchyModel.find({belowId: parentId}, (err, res: any[]) => {
+    return new Promise((resolve, reject) => 
+      this.hierarchyModel.find(
+        {belowId: parentId}, 
+        (err, res: OrganizationHierarchy[]) => {
         
-        if (err) {
-          reject(err);
-        } else {
-          const relations = res.map(r => 
-            ({level: r.level + 1, aboveId: r.aboveId, belowId: newId}));
-          relations.push({level: 0, aboveId: newId, belowId: newId});
-          
-          this.hierarchyModel.insertMany(relations, 
-            (ierr) => ierr ? reject(ierr) : resolve()
-          );
+          if (err) {
+            reject(err);
+          } else {
+            const relations = res.map(r => 
+              ({level: r.level + 1, aboveId: r.aboveId, belowId: newId}));
+            relations.push({level: 0, aboveId: newId, belowId: newId});
+            
+            this.hierarchyModel.insertMany(relations, 
+              (ierr) => ierr ? reject(ierr) : resolve()
+            );
+          }
         }
-      });
-    });
+      )
+    );
   }
 
   private toDoc(entity: OrganizationEntity) {

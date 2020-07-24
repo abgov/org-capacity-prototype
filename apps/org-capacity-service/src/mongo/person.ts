@@ -1,6 +1,6 @@
 import { Model, Document, model, mongo } from 'mongoose';
-import { Results } from '@org-capacity/org-capacity-common';
-import { decodeAfter, encodeNext, Doc, User} from '../common';
+import { Results, User } from '@org-capacity/org-capacity-common';
+import { decodeAfter, encodeNext, Doc} from '../common';
 import { PersonRepository, PersonEntity, Person, PersonCriteria } from '../capacity';
 import { personSchema } from './schema';
 

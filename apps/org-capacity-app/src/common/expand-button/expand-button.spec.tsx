@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 
-import ExpandButton from './expand-button';
+import { ExpandButton } from './expand-button';
 
 describe(' ExpandButton', () => {
   afterEach(cleanup);
@@ -10,7 +10,9 @@ describe(' ExpandButton', () => {
     const { baseElement } = render(
       <ExpandButton 
         expanded={false} 
-        onClick={() => {}} 
+        onClick={() => {
+          // do nothing.
+        }} 
       />
     );
     expect(baseElement).toBeTruthy();

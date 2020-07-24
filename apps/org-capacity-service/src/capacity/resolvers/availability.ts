@@ -1,4 +1,5 @@
-import { RequestContext, UnauthorizedError, UserRole } from '../../common';
+import { UserRole } from '@org-capacity/org-capacity-common';
+import { RequestContext, UnauthorizedError } from '../../common';
 import { Repositories } from '../repository';
 
 export const createAvailabilityResolvers = (repos: Repositories) => ({

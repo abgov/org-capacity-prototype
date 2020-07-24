@@ -1,8 +1,8 @@
 // Passport enhances type defs on express types; this is needed for type checking on tests.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as passport from 'passport';
+import { UserRole, User } from '@org-capacity/org-capacity-common';
 import { UnauthorizedError } from './errors';
-import { UserRole, User } from './user';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type FunctionWithUser = (user: User, ...args: unknown[]) => any

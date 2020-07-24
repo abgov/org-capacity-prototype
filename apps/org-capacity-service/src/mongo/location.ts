@@ -1,5 +1,6 @@
 import { Model, Document, model, mongo } from 'mongoose';
-import { Doc, User } from '../common';
+import { User } from '@org-capacity/org-capacity-common';
+import { Doc } from '../common';
 import { LocationRepository, LocationEntity, Location } from '../capacity';
 import { locationSchema } from './schema';
 
