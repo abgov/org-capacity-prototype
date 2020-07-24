@@ -1,9 +1,8 @@
+import { UserRole, User } from '@org-capacity/org-capacity-common';
 import { 
   AssertRole, 
   New, 
   Update, 
-  User, 
-  UserRole, 
   InvalidOperationError, 
   UnauthorizedError 
 } from '../../common';
@@ -84,7 +83,7 @@ export class OrganizationEntity implements Organization {
   async updateRoles(updater: User, roles: Role[]) {
 
     if (!updater.roles.includes(UserRole.ServiceAdmin) &&
-      updater.organizationId !== this.id) {
+      this.id !== updater.organizationId) {
       throw new UnauthorizedError(
         `User ${updater.name} (ID: ${updater.id}) not allowed to update roles for ` +
         `organization ${this.name} (ID: ${this.id}).`)

@@ -1,8 +1,7 @@
+import { UserRole, User } from '@org-capacity/org-capacity-common';
 import { 
   AssertRole, 
-  New, 
-  User, 
-  UserRole 
+  New
 } from '../../common';
 import { logger } from '../../logger';
 import { Location } from '../types';

@@ -1,5 +1,4 @@
-import { Results } from '@org-capacity/org-capacity-common';
-import { User } from '../../common';
+import { Results, User } from '@org-capacity/org-capacity-common';
 import { OrganizationCriteria, OrganizationCapacity } from '../types';
 import { OrganizationEntity } from '../model';
 

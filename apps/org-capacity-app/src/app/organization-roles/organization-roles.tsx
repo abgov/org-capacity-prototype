@@ -7,6 +7,7 @@ import { makeStyles, TableContainer, Table, TableHead, TableRow, TableCell, Tabl
 import { Role, AvailabilityStatusType, AvailabilityStatus, AppState, PersonCriteria, Person } from '../../types';
 import { saveOrganizationRoles, modifyOrganizationRole, modifyPersonAvailability, modifyPeopleSearch, deleteOrganizationRole } from '../../state';
 import OrganizationRoleRow from './organization-role-row';
+import { UserRole } from '@org-capacity/org-capacity-common';
 
 interface OrganizationRolesProps {
   canEdit: boolean
@@ -170,9 +171,13 @@ export default connect(
   (state: AppState) => ({
     statusTypes: state.availability.types,
     canEdit: state.user.profile && 
-      (state.user.profile.organizationId === 
-        state.organization.organizationId) &&
-      state.user.roles.includes('org-admin'),
+      (
+        (
+          state.user.roles.includes(UserRole.OrganizationAdmin) &&
+          state.user.profile.organizationId === state.organization.organizationId
+        ) || 
+        state.user.roles.includes(UserRole.ServiceAdmin)
+      ),
     organizationId: state.organization.organizationId,
     people: peopleSelector(state),
     roles: rolesSelector(state),

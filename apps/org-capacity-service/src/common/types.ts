@@ -1,4 +1,4 @@
-import { User } from './user';
+import { User } from '@org-capacity/org-capacity-common';
 
 export interface RequestContext { user: User & { auth: string } }
 

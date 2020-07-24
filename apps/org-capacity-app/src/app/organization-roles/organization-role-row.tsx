@@ -267,7 +267,9 @@ export const OrganizationRoleRow = ({
             {
               !canEdit &&
               role.assigned &&
-              role.assigned.availability.capacity
+              <span>
+                {`${role.assigned.availability.capacity} %`}
+              </span>
             }
             {
               canEdit &&

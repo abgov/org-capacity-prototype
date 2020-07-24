@@ -12,7 +12,6 @@ export interface MetricPaneProps {
 
 const useStyles = makeStyles(theme => ({
   metric: {
-    height: 90,
     textAlign: 'right',
     background: theme.palette.grey[100],
     borderRadius: theme.spacing(1),

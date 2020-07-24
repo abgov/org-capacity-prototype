@@ -1,5 +1,6 @@
 import { Model, Document, model, mongo } from 'mongoose';
-import { User, Doc } from '../common';
+import { User } from '@org-capacity/org-capacity-common';
+import { Doc } from '../common';
 import { AvailabilityRepository, AvailabilityStatusType } from '../capacity';
 import { availabilityStatusTypeSchema } from './schema';
 

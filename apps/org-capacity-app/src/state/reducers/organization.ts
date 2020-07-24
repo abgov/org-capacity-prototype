@@ -45,7 +45,7 @@ export const organizationReducer = (state = defaultState, action: OrganizationAc
       return newState;
     }
     case ORGANIZATION_LOADED: {
-      return {
+      return action.organization ? {
         ...state, 
         organizations: {
           ...state.organizations,
@@ -60,7 +60,7 @@ export const organizationReducer = (state = defaultState, action: OrganizationAc
               })) : null
           }
         }
-      }
+      } : state;
     }
     case ORGANIZATION_VIEW: {
       return {

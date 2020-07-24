@@ -3,6 +3,10 @@
 This project is a prototype full stack application consisting of a React frontend app and an Apollo Server (graphql API) backend service. It collects role and people status within organizational units and aggregates that information into visual representations of capacity up
 the organization structure.
 
+![Update View](./doc/update-view.png?raw=true "Update View")
+
+![Report View](./doc/report-view.png?raw=true "Report View")
+
 This project was generated using [Nx](https://nx.dev).
 
 ## Prerequisites
@@ -42,7 +46,7 @@ In the `types` parameter, pass in an array of status types.
 
 Use the `importOrganization` mutation for loading organization structure. This mutation accepts a nested organization object with inline roles and persons. 
 
-For example, the `org` input parameter can include org structure, roles, and people.
+For example, the `org` input parameter can include org structure, roles, and people. The `defaultStatusTypeId` input parameter is also required; all persons created will default to a status based on the specified type.
 
 ```json
 {
@@ -116,3 +120,8 @@ Note that user access is not fully implemented in the prototype. Two Keycloak re
 *org-admin* role applies across the organization; it's not possible to scope the role assignment to a sub-hierarchy of the organization.
 
 The app also looks for an `organizationId` property in the jwt access token and will show the associated organization unit in the *My Area* view of the frontend app. 
+
+## Deployment
+Example for deployment is included under /.openshift
+
+Note that Keycloak and MongoDB are not included.

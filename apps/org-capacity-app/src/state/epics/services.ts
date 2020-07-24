@@ -163,7 +163,7 @@ export const createOrganizationService = ({GRAPH_API_URL}): OrganizationService 
 
   updateOrganizationRoles: (token: string, id: string, roles: Role[]) => {
     const query = gql`
-      mutation UpdateOrganizationRoles($id: ID, $roles: [RoleUpdate]) {
+      mutation UpdateOrganizationRoles($id: ID!, $roles: [RoleUpdate]!) {
         updateOrganizationRoles(organizationId: $id, roles: $roles) {
           id
           roles {
@@ -196,7 +196,7 @@ export const createOrganizationService = ({GRAPH_API_URL}): OrganizationService 
 
   deleteOrganizationRole: (token: string, id: string, roleId: string) => {
     const query = gql`
-      mutation DeleteOrganizationRole($id: ID, $roleId: ID) {
+      mutation DeleteOrganizationRole($id: ID!, $roleId: ID!) {
         deleteOrganizationRole(organizationId: $id, roleId: $roleId) {
           id
           roles {
@@ -277,7 +277,7 @@ export const createPersonService = ({GRAPH_API_URL}): PersonService => ({
   },
   setAvailability: (token, organizationId, personId, availability) => {
     const query = gql`
-      mutation($organizationId: ID, $personId: ID, $availability: AvailabilityStatusUpdate) {
+      mutation($organizationId: ID!, $personId: ID!, $availability: AvailabilityStatusUpdate!) {
         setPersonAvailability(
           organizationId: $organizationId, personId: $personId, availability: $availability
         ) {

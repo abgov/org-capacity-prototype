@@ -1,6 +1,7 @@
 import { LocationEntity } from './location';
 import { LocationRepository } from '../repository';
-import { UserRole, UnauthorizedError } from '../../common';
+import { UnauthorizedError } from '../../common';
+import { UserRole } from '@org-capacity/org-capacity-common';
 
 describe('LocationEntity', () => {
 
@@ -34,7 +35,10 @@ describe('LocationEntity', () => {
   describe('create', () => {
     it('can create', (done) => {
       const mockSave = jest.fn(
-        (location: LocationEntity) => Promise.resolve(location)
+        (location: LocationEntity) => Promise.resolve({
+          id: '1', 
+          ...location
+        })
       );
   
       LocationEntity.create({
@@ -51,6 +55,7 @@ describe('LocationEntity', () => {
         (entity) => {
       
           expect(entity).toBeTruthy();
+          expect(entity.id).toEqual('1');
           expect(entity.fullAddress).toEqual('123 Test Ave');
           done();
         }

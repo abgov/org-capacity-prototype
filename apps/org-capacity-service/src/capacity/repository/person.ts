@@ -1,5 +1,4 @@
-import { Results } from '@org-capacity/org-capacity-common';
-import { User } from '../../common';
+import { Results, User } from '@org-capacity/org-capacity-common';
 import { PersonEntity } from '../model';
 import { PersonCriteria } from '../types';
 

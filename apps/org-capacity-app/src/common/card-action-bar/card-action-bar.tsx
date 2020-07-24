@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, ReactElement } from 'react';
 import { makeStyles, Slide, Button, ClickAwayListener } from '@material-ui/core';
 
 export interface CardActionBarProps {
@@ -22,7 +22,7 @@ export const CardActionBar: FunctionComponent<CardActionBarProps> = ({children, 
 
   confirmActions = confirmActions || [];
 
-  children = React.Children.map(children, (child: any) => 
+  children = React.Children.map(children, (child: ReactElement) => 
     child && child.props.id && confirmActions.includes(child.props.id) ? 
       React.cloneElement(child, 
         { onClick: () => setConfirm({label: child.props.id, onConfirm: child.props.onClick}) }

@@ -7,7 +7,14 @@ describe(' SignIn', () => {
   afterEach(cleanup);
 
   it('should render successfully', () => {
-    const { baseElement } = render(<SignIn idp="google" profile={null} onSignIn={() => {}} />);
+    const { baseElement } = render(
+      <SignIn 
+        profile={null} 
+        onSignIn={() => {
+          // do nothing.
+        }} 
+      />
+    );
     expect(baseElement).toBeTruthy();
   });
 });

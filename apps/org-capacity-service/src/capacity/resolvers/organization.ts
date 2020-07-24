@@ -1,10 +1,10 @@
+import { User } from '@org-capacity/org-capacity-common';
 import { 
-  RequestContext, 
-  User, 
+  RequestContext,
   InvalidOperationError,
   UnauthorizedError 
 } from '../../common';
-import { Organization, Role, Person, NewOrganization } from '../types';
+import { Organization, Role, Person, NewOrganization, AvailabilityStatusType } from '../types';
 import { Repositories } from '../repository';
 import { OrganizationEntity, LocationEntity, PersonEntity } from '../model';
 
@@ -12,6 +12,7 @@ const importOrganization = (
   repos: Repositories, 
   user: User,
   parent: OrganizationEntity,
+  defaultStatusType: AvailabilityStatusType,
   {location, roles, children, ...org}: NewOrganization
 ) => {
   const locationPromise = location ?
@@ -32,7 +33,17 @@ const importOrganization = (
         
         return personLocationPromise.then((pLocationId) => 
           PersonEntity.create(
-            user, repos.person, {...assigned, locationId: pLocationId}
+            user, 
+            repos.person, 
+            {
+              ...assigned,
+              availability: { 
+                typeId: defaultStatusType.id, 
+                start: new Date(),
+                capacity: defaultStatusType.capacity
+              }, 
+              locationId: pLocationId
+            }
           )
         ).then((person) => ({...role, assignedId: person.id}));
       }
@@ -54,7 +65,9 @@ const importOrganization = (
       ).then((newOrg) => {
         return children ? 
           Promise.all(
-            children.map(child => importOrganization(repos, user, newOrg, child))
+            children.map(child => 
+              importOrganization(repos, user, newOrg, defaultStatusType, child)
+            )
           ).then(() =>newOrg) :
           Promise.resolve(newOrg)
       });
@@ -128,7 +141,7 @@ export const createOrganizationResolvers = (repos: Repositories) => ({
   Mutation: {
     importOrganization: (
       _, 
-      {parentId, org}, 
+      {parentId, defaultStatusTypeId, org}, 
       context: RequestContext
     ) => (parentId ? 
       repos.organization.getOrganization(context.user, parentId)
@@ -136,9 +149,18 @@ export const createOrganizationResolvers = (repos: Repositories) => ({
         if (!parent) {
           throw new InvalidOperationError(`Parent organization (ID: ${parentId}) not found.`);
         }
+        return parent;
       }) : 
-      Promise.resolve(null)
-    ).then((parent) => importOrganization(repos, context.user, parent, org)),
+      Promise.resolve<OrganizationEntity>(null)
+    ).then((parent) =>
+      repos.availability.getStatusType(
+        defaultStatusTypeId
+      ).then(
+        (statusType) => ({parent, statusType})
+      )
+    ).then(({parent, statusType}) => 
+      importOrganization(repos, context.user, parent, statusType, org)
+    ),
     updateOrganization: (
       _, 
       {organizationId, update}, 

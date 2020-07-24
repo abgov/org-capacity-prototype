@@ -1,4 +1,5 @@
-import { User } from '../../common';
+
+import { User } from '@org-capacity/org-capacity-common';
 import { AvailabilityStatusType } from '../types';
 
 export interface AvailabilityRepository {

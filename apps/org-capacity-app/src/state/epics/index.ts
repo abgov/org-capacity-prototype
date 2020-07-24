@@ -1,14 +1,16 @@
 import { combineEpics } from 'redux-observable';
 import { UserManager } from 'oidc-client';
-import { environment } from '../../environments/environment';
+import { Environment } from '../../environments';
 import { createUserEpics } from './user';
 import { createOrganizationEpics } from './organization';
 import { createServices } from './services';
 import { createAvailabilityEpics } from './availability';
 import { createPersonEpics } from './person';
 
-export const createAppEpic = (userManager: UserManager) => {
-
+export const createAppEpic = (
+  environment: Environment, 
+  userManager: UserManager
+) => {
   const services = createServices(environment);
 
   const { loginUserEpic, logoutUserEpic, loginRedirectEpic } = createUserEpics({}, userManager);

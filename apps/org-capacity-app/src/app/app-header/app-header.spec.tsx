@@ -8,7 +8,19 @@ describe(' AppHeader', () => {
 
   it('should render successfully', () => {
     const { baseElement } = render(
-      <AppHeader profile={null} onLogin={() => {}} onLogout={() => {}} onOpenProfile={() => {}}></AppHeader>);
+      <AppHeader 
+        profile={null} 
+        onLogin={() => {
+          // do nothing.
+        }} 
+        onLogout={() => {
+          // do nothing.
+        }} 
+        onOpenProfile={() => {
+          // do nothing.
+        }} 
+      />
+    );
     expect(baseElement).toBeTruthy();
   });
 });

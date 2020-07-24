@@ -1,12 +1,32 @@
 import { of } from 'rxjs';
-import { map, filter, switchMap, mergeMap, withLatestFrom, debounceTime } from 'rxjs/operators';
+import { map, catchError, filter, switchMap, mergeMap, withLatestFrom, debounceTime } from 'rxjs/operators';
 import { Epic, ofType } from 'redux-observable';
 import { matchPath, match } from 'react-router-dom';
 import { USER_FOUND } from 'redux-oidc';
 import { Action } from 'redux';
 import { LOCATION_CHANGE } from 'connected-react-router';
 import { Services } from './services';
-import { ORGANIZATIONS_LOADING, OrganizationsLoadingAction, loadedOrganizations, loadOrganizations, ORGANIZATION_LOADING, OrganizationLoadingAction, loadedOrganization, loadOrganization, viewOrganization, ORGANIZATION_ROLES_SAVING, OrganizationRolesSavingAction, savedOrganizationRoles, ORGANIZATION_ROLE_MODIFY, OrganizationRoleModifyAction, saveOrganizationRoles, deletedOrganizationRole, OrganizationRoleDeletingAction, ORGANIZATION_ROLE_DELETING } from '../actions';
+import { 
+  ORGANIZATIONS_LOADING, 
+  OrganizationsLoadingAction, 
+  loadOrganizations, 
+  loadedOrganizations, 
+  ORGANIZATION_LOADING, 
+  OrganizationLoadingAction,
+  loadOrganization,  
+  loadedOrganization,
+  loadOrganizationFailed,
+  viewOrganization, 
+  ORGANIZATION_ROLES_SAVING, 
+  OrganizationRolesSavingAction, 
+  savedOrganizationRoles, 
+  ORGANIZATION_ROLE_MODIFY, 
+  OrganizationRoleModifyAction, 
+  saveOrganizationRoles, 
+  deletedOrganizationRole, 
+  OrganizationRoleDeletingAction, 
+  ORGANIZATION_ROLE_DELETING
+} from '../actions';
 import { AppState, OrganizationState } from '../../types';
 
 interface OrganizationEpics {
@@ -38,7 +58,8 @@ export const createOrganizationEpics = (services: Services): OrganizationEpics =
     withLatestFrom(state$.pipe(map((s: AppState) => s.user.token), filter(t => !!t))),
     switchMap(([a, t]: [OrganizationLoadingAction, string]) => 
       services.organization.getOrganization(t, a.organizationId, a.details).pipe(
-        map((result) => loadedOrganization(a.organizationId, result))
+        map((result) => loadedOrganization(a.organizationId, result)),
+        catchError((err) => of(loadOrganizationFailed(a.organizationId)))
       )
     )
   ),
